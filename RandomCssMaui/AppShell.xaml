@@ -8,9 +8,15 @@
     Shell.FlyoutBehavior="Disabled"
     Title="RandomCssMaui">
 
-    <ShellContent
-        Title="Dodaj Uczniów"
-        ContentTemplate="{DataTemplate views:AddPage}"
-        />
+    <TabBar>
+        <ShellContent
+            Title="Dodaj Uczniów"
+            ContentTemplate="{DataTemplate views:AddPage}"
+            />
+        <ShellContent
+            Title="Przeglądaj Klasy"
+            ContentTemplate="{DataTemplate views:ClassesPage}"
+            />
+    </TabBar>
 
 </Shell>

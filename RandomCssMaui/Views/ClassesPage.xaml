@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RandomCssMaui.Views.ClassesPage"
+             Title="Lista klas">
+    <StackLayout Padding="12" Spacing="8">
+        <Label Text="Klasy i uczniowie" FontAttributes="Bold" FontSize="Medium" />
+        <CollectionView ItemsSource="{Binding Classes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="8" Margin="4" BorderColor="LightGray" CornerRadius="6">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <CollectionView ItemsSource="{Binding Students}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

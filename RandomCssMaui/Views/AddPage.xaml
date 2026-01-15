@@ -2,9 +2,39 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RandomCssMaui.Views.AddPage"
-             Title="AddPage">
-    <VerticalStackLayout>
-        <Entry Placeholder="Imię"/>
-        <CarouselView ItemsSource=""/>
+             Title="Dodaj klasę i ucznia">
+    <VerticalStackLayout Padding="20" Spacing="12">
+        <Label Text="Nowa klasa" FontAttributes="Bold" />
+        <Entry Text="{Binding NewClassName}" Placeholder="Nazwa klasy" />
+
+        <Button Text="Dodaj klasę" Command="{Binding AddClassCommand}" />
+
+        <Label Text="Dodaj ucznia do zaznaczonej klasy" FontAttributes="Bold" />
+        <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
+
+        <HorizontalStackLayout Spacing="8">
+            <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
+            <Button Text="Zapisz do pliku" Command="{Binding SaveCommand}" />
+        </HorizontalStackLayout>
+
+        <Label Text="Klasy (wybierz żeby dodać ucznia)" FontAttributes="Bold" />
+        <CollectionView ItemsSource="{Binding Classes}" SelectionMode="Single" SelectedItem="{Binding SelectedClass}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray" CornerRadius="6" Padding="8" Margin="4">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <CollectionView ItemsSource="{Binding Students}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding Name}" FontSize="Small" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

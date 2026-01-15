@@ -1,0 +1,57 @@
+using System.Collections.ObjectModel;
+using RandomCssMaui.Models;
+
+namespace RandomCssMaui.Data;
+
+public static class ClassRepository
+{
+    const string FileName = "classes.txt";
+    static string FilePath => Path.Combine(FileSystem.AppDataDirectory, FileName);
+
+    public static ObservableCollection<ClassModel> Classes { get; } = new ObservableCollection<ClassModel>();
+
+    public static async Task LoadAsync()
+    {
+        Classes.Clear();
+        if (!File.Exists(FilePath))
+            return;
+
+        var lines = await File.ReadAllLinesAsync(FilePath);
+        ClassModel? current = null;
+        foreach (var raw in lines)
+        {
+            var line = raw?.Trim();
+            if (string.IsNullOrEmpty(line))
+            {
+                current = null;
+                continue;
+            }
+
+            if (line.StartsWith("Class:"))
+            {
+                var name = line.Substring("Class:".Length).Trim();
+                current = new ClassModel(name);
+                Classes.Add(current);
+            }
+            else if (line.StartsWith("-") && current != null)
+            {
+                var studentName = line.Substring(1).Trim();
+                current.Students.Add(new StudentModel(studentName));
+            }
+        }
+    }
+
+    public static async Task SaveAsync()
+    {
+        var sb = new System.Text.StringBuilder();
+        foreach (var cls in Classes)
+        {
+            sb.AppendLine($"Class: {cls.Name}");
+            foreach (var s in cls.Students)
+                sb.AppendLine($"- {s.Name}");
+            sb.AppendLine();
+        }
+        Directory.CreateDirectory(Path.GetDirectoryName(FilePath) ?? FileSystem.AppDataDirectory);
+        await File.WriteAllTextAsync(FilePath, sb.ToString());
+    }
+}
