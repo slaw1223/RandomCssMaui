@@ -18,6 +18,7 @@ public static class ClassRepository
 
         var lines = await File.ReadAllLinesAsync(FilePath);
         ClassModel? current = null;
+
         foreach (var raw in lines)
         {
             var line = raw?.Trim();
@@ -35,8 +36,19 @@ public static class ClassRepository
             }
             else if (line.StartsWith("-") && current != null)
             {
-                var studentName = line.Substring(1).Trim();
-                current.Students.Add(new StudentModel(studentName));
+                var studentRaw = line.Substring(1).Trim();
+                // Format zapisu: "id|Name" (np. "- 12|Jan Kowalski")
+                var parts = studentRaw.Split('|', 2);
+                if (parts.Length == 2 && int.TryParse(parts[0], out var id))
+                {
+                    var studentName = parts[1].Trim();
+                    current.Students.Add(new StudentModel(id, studentName));
+                }
+                else
+                {
+                    // stary format: tylko nazwa -> nadajemy id automatycznie
+                    current.Students.Add(new StudentModel(studentRaw));
+                }
             }
         }
     }
@@ -48,10 +60,14 @@ public static class ClassRepository
         {
             sb.AppendLine($"Class: {cls.Name}");
             foreach (var s in cls.Students)
-                sb.AppendLine($"- {s.Name}");
+                // zapisujemy id wraz z nazw¹, separowane '|'
+                sb.AppendLine($"- {s.Id}|{s.Name}");
             sb.AppendLine();
         }
-        Directory.CreateDirectory(Path.GetDirectoryName(FilePath) ?? FileSystem.AppDataDirectory);
+
+        // upewnij siê, ¿e katalog istnieje przed zapisem
+        var dir = Path.GetDirectoryName(FilePath) ?? FileSystem.AppDataDirectory;
+        Directory.CreateDirectory(dir);
         await File.WriteAllTextAsync(FilePath, sb.ToString());
     }
 }

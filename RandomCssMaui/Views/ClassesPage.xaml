@@ -5,12 +5,32 @@
              Title="Lista klas">
     <StackLayout Padding="12" Spacing="8">
         <Label Text="Wybierz klasę" FontAttributes="Bold" FontSize="Medium" />
+        <!-- Picker umożliwia wybór klasy -->
+        <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
+
+        <HorizontalStackLayout Spacing="8">
+            <Button Text="Wylosuj ucznia" Command="{Binding DrawStudentCommand}" />
+            <Label Text="Szczęśliwy numerek:" VerticalOptions="Center" />
+            <Label Text="{Binding LuckyNumber}" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <Label Text="Wylosowany uczeń:" FontAttributes="Bold" />
+        <Label Text="{Binding SelectedStudentName}" />
+
+        <Label Text="Klasy (lista)" class="header" />
         <CollectionView ItemsSource="{Binding Classes}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame class="header">
                         <VerticalStackLayout>
-                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Name}" class="header" />
+                            <CollectionView ItemsSource="{Binding Students}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding Name}" class="small" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
