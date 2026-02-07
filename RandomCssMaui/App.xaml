@@ -5,6 +5,7 @@
              x:Class="RandomCssMaui.App">
     <Application.Resources>
         <ResourceDictionary>
+            <StyleSheet Source="Resources/Styles/app.css" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

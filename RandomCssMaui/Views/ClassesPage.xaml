@@ -4,20 +4,13 @@
              x:Class="RandomCssMaui.Views.ClassesPage"
              Title="Lista klas">
     <StackLayout Padding="12" Spacing="8">
-        <Label Text="Klasy i uczniowie" FontAttributes="Bold" FontSize="Medium" />
+        <Label Text="Wybierz klasę" FontAttributes="Bold" FontSize="Medium" />
         <CollectionView ItemsSource="{Binding Classes}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="8" Margin="4" BorderColor="LightGray" CornerRadius="6">
+                    <Frame class="header">
                         <VerticalStackLayout>
                             <Label Text="{Binding Name}" FontAttributes="Bold" />
-                            <CollectionView ItemsSource="{Binding Students}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Text="{Binding Name}" />
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>

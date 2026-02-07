@@ -1,0 +1,28 @@
+﻿VerticalStackLayout.page-stack {
+    padding: 20;
+    spacing: 12;
+}
+
+HorizontalStackLayout.actions {
+    spacing: 8;
+}
+
+Label.header {
+    font-weight: bold;
+}
+
+Label.small {
+    font-size: 12px;
+    color: #6E6E6E;
+}
+
+Frame.card {
+    border-color: #C8C8C8;
+    border-radius: 6;
+    padding: 8;
+    margin: 4;
+}
+
+CollectionView {
+    margin: 0;
+}

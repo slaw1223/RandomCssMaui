@@ -3,31 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RandomCssMaui.Views.AddPage"
              Title="Dodaj klasę i ucznia">
-    <VerticalStackLayout Padding="20" Spacing="12">
-        <Label Text="Nowa klasa" FontAttributes="Bold" />
+    <VerticalStackLayout class="page-stack">
+        <Label Text="Nowa klasa" class="header" />
         <Entry Text="{Binding NewClassName}" Placeholder="Nazwa klasy" />
 
         <Button Text="Dodaj klasę" Command="{Binding AddClassCommand}" />
 
-        <Label Text="Dodaj ucznia do zaznaczonej klasy" FontAttributes="Bold" />
+        <Label Text="Dodaj ucznia do zaznaczonej klasy" class="header" />
         <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
 
-        <HorizontalStackLayout Spacing="8">
+        <HorizontalStackLayout class="actions">
             <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
             <Button Text="Zapisz do pliku" Command="{Binding SaveCommand}" />
         </HorizontalStackLayout>
 
-        <Label Text="Klasy (wybierz żeby dodać ucznia)" FontAttributes="Bold" />
+        <Label Text="Klasy (wybierz żeby dodać ucznia)" class="header" />
         <CollectionView ItemsSource="{Binding Classes}" SelectionMode="Single" SelectedItem="{Binding SelectedClass}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BorderColor="LightGray" CornerRadius="6" Padding="8" Margin="4">
+                    <Frame class="card">
                         <VerticalStackLayout>
-                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Name}" class="header" />
                             <CollectionView ItemsSource="{Binding Students}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="{Binding Name}" FontSize="Small" />
+                                        <Label Text="{Binding Name}" class="small" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
