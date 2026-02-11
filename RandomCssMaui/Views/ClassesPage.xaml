@@ -5,7 +5,6 @@
              Title="Lista klas">
     <StackLayout Padding="12" Spacing="8">
         <Label Text="Wybierz klasę" FontAttributes="Bold" FontSize="Medium" />
-        <!-- Picker umożliwia wybór klasy -->
         <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
 
         <HorizontalStackLayout Spacing="8">

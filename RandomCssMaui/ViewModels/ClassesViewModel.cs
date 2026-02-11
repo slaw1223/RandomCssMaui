@@ -40,13 +40,11 @@ public partial class ClassesViewModel : ObservableObject
             return;
         }
 
-        // Pobierz szczêœliwy numerek wygenerowany przy starcie aplikacji
         if (Application.Current is App app)
             LuckyNumber = app.LuckyNumber;
         else
             LuckyNumber = new Random().Next(1, 31);
 
-        // Wyklucz uczniów o id == luckyNumber
         var candidates = SelectedClass.Students.Where(s => s.Id != LuckyNumber).ToList();
 
         if (!candidates.Any())
@@ -58,5 +56,5 @@ public partial class ClassesViewModel : ObservableObject
         var rnd = new Random();
         var winner = candidates[rnd.Next(candidates.Count)];
         SelectedStudentName = $"{winner.Name} (Id: {winner.Id})";
-    }
+    }//kana³ 0 wywiad z prof Piotr Sankowski
 }
