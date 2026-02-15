@@ -46,7 +46,6 @@ public static class ClassRepository
                 }
                 else
                 {
-                    // stary format: tylko nazwa -> nadajemy id automatycznie
                     current.Students.Add(new StudentModel(studentRaw));
                 }
             }
@@ -60,12 +59,11 @@ public static class ClassRepository
         {
             sb.AppendLine($"Class: {cls.Name}");
             foreach (var s in cls.Students)
-                // zapisujemy id wraz z nazw¹, separowane '|'
+
                 sb.AppendLine($"- {s.Id}|{s.Name}");
             sb.AppendLine();
         }
 
-        // upewnij siê, ¿e katalog istnieje przed zapisem
         var dir = Path.GetDirectoryName(FilePath) ?? FileSystem.AppDataDirectory;
         Directory.CreateDirectory(dir);
         await File.WriteAllTextAsync(FilePath, sb.ToString());

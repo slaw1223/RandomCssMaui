@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RandomCssMaui.Models;
 using RandomCssMaui.Data;
 
@@ -43,13 +44,21 @@ public partial class AddPageViewModel : ObservableObject
         if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
             return;
 
-        SelectedClass.Students.Add(new StudentModel(NewStudentName.Trim()));
+        // teraz id nadawane jest per-klasie
+        SelectedClass.AddStudent(NewStudentName.Trim());
         NewStudentName = string.Empty;
     }
 
     [RelayCommand]
     async Task Save()
     {
+        await ClassRepository.SaveAsync();
+    }
+
+    [RelayCommand]
+    async Task RemoveAll()
+    {
+        Classes.Clear();
         await ClassRepository.SaveAsync();
     }
 }
