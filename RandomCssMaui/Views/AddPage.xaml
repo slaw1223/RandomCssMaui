@@ -15,10 +15,10 @@
 
             <HorizontalStackLayout class="actions">
                 <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
-                <Button Text="Zapisz do pliku" Command="{Binding SaveCommand}" />
+                <Button Text="Wyczyść wszystko" Command="{Binding RemoveAllCommand}" />
             </HorizontalStackLayout>
 
-            <Label Text="Wybierz klasę (select) żeby dodać ucznia" class="header" />
+            <Label Text="Wybierz klasę żeby dodać ucznia" class="header" />
             <Picker ItemsSource="{Binding Classes}"
                 ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedClass}" />
@@ -31,7 +31,7 @@
                             <VerticalStackLayout>
                                 <Label Text="{Binding Name}" class="header" />
                                 <CollectionView ItemsSource="{Binding Students}">
-                                    <CollectionView.ItemTemplate>
+                                    <CollectionView.ItemTemplate >
                                         <DataTemplate>
                                             <Label Text="{Binding Name}" class="small" />
                                         </DataTemplate>

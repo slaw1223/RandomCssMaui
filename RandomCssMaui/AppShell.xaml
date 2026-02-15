@@ -18,5 +18,4 @@
             ContentTemplate="{DataTemplate views:ClassesPage}"
             />
     </TabBar>
-
 </Shell>

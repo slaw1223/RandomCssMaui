@@ -2,6 +2,9 @@
     padding: 20;
     spacing: 12;
 }
+contentpage{
+    color: red;
+}
 
 HorizontalStackLayout.actions {
     spacing: 8;
@@ -25,4 +28,14 @@ Frame.card {
 
 CollectionView {
     margin: 0;
+}
+
+^Shell {
+    background-color: red;
+    color: #FFFFFF;
+}
+
+^Shell Label {
+    color: #FFFFFF;
+    font-weight: 600;
 }

@@ -14,6 +14,11 @@ public partial class ClassesViewModel : ObservableObject
     public ClassesViewModel()
     {
         _ = ClassRepository.LoadAsync();
+
+        if (Application.Current is App app)
+            luckyNumber = app.LuckyNumber;
+        else
+            luckyNumber = new Random().Next(1, 31);
     }
 
     [ObservableProperty]
@@ -26,7 +31,7 @@ public partial class ClassesViewModel : ObservableObject
     int luckyNumber;
 
     [RelayCommand]
-    void DrawStudent()
+    async Task DrawStudent()
     {
         if (SelectedClass == null)
         {
@@ -34,27 +39,27 @@ public partial class ClassesViewModel : ObservableObject
             return;
         }
 
-        if (!SelectedClass.Students.Any())
+        if (!SelectedClass.Students.Any(s => s.IsPresent))
         {
-            SelectedStudentName = "Brak uczniów w klasie";
+            SelectedStudentName = "Brak obecnych uczniów w klasie";
             return;
         }
-
-        if (Application.Current is App app)
-            LuckyNumber = app.LuckyNumber;
-        else
-            LuckyNumber = new Random().Next(1, 31);
-
-        var candidates = SelectedClass.Students.Where(s => s.Id != LuckyNumber).ToList();
+        var candidates = SelectedClass.Students.Where(s => s.IsPresent && s.Id != LuckyNumber).ToList();
 
         if (!candidates.Any())
         {
-            SelectedStudentName = $"Wszyscy uczniowie maj¹ szczêœliwy numer {LuckyNumber} — brak kandydata";
+            SelectedStudentName = "Brak kandydata";
             return;
         }
 
         var rnd = new Random();
         var winner = candidates[rnd.Next(candidates.Count)];
         SelectedStudentName = $"{winner.Name} (Id: {winner.Id})";
-    }//kana³ 0 wywiad z prof Piotr Sankowski
+    }
+
+    [RelayCommand]
+    async Task SavePresence()
+    {
+        await ClassRepository.SaveAsync();
+    }
 }

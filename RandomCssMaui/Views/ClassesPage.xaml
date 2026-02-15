@@ -12,26 +12,24 @@
                 <Button Text="Wylosuj ucznia" Command="{Binding DrawStudentCommand}" />
                 <Label Text="Szczęśliwy numerek:" VerticalOptions="Center" />
                 <Label Text="{Binding LuckyNumber}" VerticalOptions="Center" />
+                <Button Text="Zapisz obecność" Command="{Binding SavePresenceCommand}" />
             </HorizontalStackLayout>
 
             <Label Text="Wylosowany uczeń:" FontAttributes="Bold" />
             <Label Text="{Binding SelectedStudentName}" />
 
-            <Label Text="Klasy (lista)" class="header" />
-            <CollectionView ItemsSource="{Binding Classes}">
+            <Label Text="Lista uczniów (obecność)" class="header" />
+            <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame class="header">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name}" class="header" />
-                                <CollectionView ItemsSource="{Binding Students}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Label Text="{Binding Name}" class="small" />
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </VerticalStackLayout>
+                        <Frame class="card">
+                            <HorizontalStackLayout VerticalOptions="Center" Spacing="12">
+                                <CheckBox IsChecked="{Binding IsPresent}" VerticalOptions="Center" />
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text="{Binding Id, StringFormat='Id: {0}'}" class="small" />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

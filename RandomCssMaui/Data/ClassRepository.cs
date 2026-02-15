@@ -37,16 +37,27 @@ public static class ClassRepository
             else if (line.StartsWith("-") && current != null)
             {
                 var studentRaw = line.Substring(1).Trim();
-                // Format zapisu: "id|Name" (np. "- 12|Jan Kowalski")
-                var parts = studentRaw.Split('|', 2);
-                if (parts.Length == 2 && int.TryParse(parts[0], out var id))
+                // Nowy format zapisu: "id|Name|present" gdzie present = 1 lub 0
+                var parts = studentRaw.Split('|');
+                if (parts.Length >= 2 && int.TryParse(parts[0], out var id))
                 {
                     var studentName = parts[1].Trim();
-                    current.Students.Add(new StudentModel(id, studentName));
+                    bool isPresent = true;
+                    if (parts.Length >= 3)
+                    {
+                        var p = parts[2].Trim();
+                        if (int.TryParse(p, out var pInt))
+                            isPresent = pInt != 0;
+                        else if (bool.TryParse(p, out var pBool))
+                            isPresent = pBool;
+                    }
+
+                    current.AddExistingStudent(new StudentModel(id, studentName, isPresent));
                 }
                 else
                 {
-                    current.Students.Add(new StudentModel(studentRaw));
+                    // stary format: tylko nazwa -> nadajemy id automatycznie i obecnoœæ = true
+                    current.AddStudent(studentRaw);
                 }
             }
         }
@@ -59,8 +70,8 @@ public static class ClassRepository
         {
             sb.AppendLine($"Class: {cls.Name}");
             foreach (var s in cls.Students)
-
-                sb.AppendLine($"- {s.Id}|{s.Name}");
+                // zapisujemy id, nazwê i flagê obecnoœci (1 = obecny, 0 = nieobecny)
+                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}");
             sb.AppendLine();
         }
 

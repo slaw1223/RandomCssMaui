@@ -39,19 +39,13 @@ public partial class AddPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    void AddStudent()
+    async Task AddStudent()
     {
         if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
             return;
 
-        // teraz id nadawane jest per-klasie
         SelectedClass.AddStudent(NewStudentName.Trim());
         NewStudentName = string.Empty;
-    }
-
-    [RelayCommand]
-    async Task Save()
-    {
         await ClassRepository.SaveAsync();
     }
 
