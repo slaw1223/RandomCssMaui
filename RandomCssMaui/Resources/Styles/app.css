@@ -11,7 +11,8 @@ HorizontalStackLayout.actions {
 }
 
 Label.header {
-    font-weight: bold;
+    font-weight: bold; 
+    color: #FF0000;
 }
 
 Label.small {
@@ -30,12 +31,12 @@ CollectionView {
     margin: 0;
 }
 
-^Shell {
-    background-color: red;
+Shell {
+    background-color: #FF0000;
     color: #FFFFFF;
 }
 
-^Shell Label {
+Shell Label {
     color: #FFFFFF;
     font-weight: 600;
 }

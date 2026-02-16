@@ -7,25 +7,27 @@ public class StudentModel
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
 
-    // flaga obecnoœci - domyœlnie true (obecny)
     public bool IsPresent { get; set; } = true;
 
-    // Konstruktor bezparametrowy (deserializacja / XAML)
+    public int SelectedCounter { get; set; } =  0;
+
     public StudentModel() { }
 
-    // Konstruktor pomocniczy (u¿ywany przed przypisaniem id)
+//konstruktor przed id
     public StudentModel(string name)
     {
         Id = 0;
         Name = name;
         IsPresent = true;
+        SelectedCounter = 0;
     }
 
-    // Konstruktor u¿ywany gdy id i obecnoœæ s¹ znane (np. przy wczytywaniu z pliku)
-    public StudentModel(int id, string name, bool isPresent = true)
+//konstruktor gdy id i obecnoœæ
+    public StudentModel(int id, string name, bool isPresent = true, int selectedCounter=0)
     {
         Id = id;
         Name = name;
         IsPresent = isPresent;
+        SelectedCounter = selectedCounter;
     }
 }

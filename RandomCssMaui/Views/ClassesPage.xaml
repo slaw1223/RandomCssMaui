@@ -12,13 +12,12 @@
                 <Button Text="Wylosuj ucznia" Command="{Binding DrawStudentCommand}" />
                 <Label Text="Szczęśliwy numerek:" VerticalOptions="Center" />
                 <Label Text="{Binding LuckyNumber}" VerticalOptions="Center" />
-                <Button Text="Zapisz obecność" Command="{Binding SavePresenceCommand}" />
             </HorizontalStackLayout>
 
             <Label Text="Wylosowany uczeń:" FontAttributes="Bold" />
             <Label Text="{Binding SelectedStudentName}" />
 
-            <Label Text="Lista uczniów (obecność)" class="header" />
+            <Label Text="Lista uczniów" class="header" />
             <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

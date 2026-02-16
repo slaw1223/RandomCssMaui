@@ -10,18 +10,19 @@
 
             <Button Text="Dodaj klasę" Command="{Binding AddClassCommand}" />
 
+            <Label Text="Wybierz klasę" class="header" />
+            <Picker ItemsSource="{Binding Classes}"
+    ItemDisplayBinding="{Binding Name}"
+    SelectedItem="{Binding SelectedClass}" />
+
             <Label Text="Dodaj ucznia do zaznaczonej klasy" class="header" />
             <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
 
             <HorizontalStackLayout class="actions">
                 <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
+                <Button Text="Edytuj ucznia"/>
                 <Button Text="Wyczyść wszystko" Command="{Binding RemoveAllCommand}" />
             </HorizontalStackLayout>
-
-            <Label Text="Wybierz klasę żeby dodać ucznia" class="header" />
-            <Picker ItemsSource="{Binding Classes}"
-                ItemDisplayBinding="{Binding Name}"
-                SelectedItem="{Binding SelectedClass}" />
 
             <Label Text="Klasy i uczniowie" class="header" />
             <CollectionView ItemsSource="{Binding Classes}">

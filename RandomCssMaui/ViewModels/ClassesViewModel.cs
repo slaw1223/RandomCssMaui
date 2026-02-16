@@ -30,6 +30,8 @@ public partial class ClassesViewModel : ObservableObject
     [ObservableProperty]
     int luckyNumber;
 
+    int selectedCounter;
+
     [RelayCommand]
     async Task DrawStudent()
     {
@@ -44,7 +46,7 @@ public partial class ClassesViewModel : ObservableObject
             SelectedStudentName = "Brak obecnych uczniów w klasie";
             return;
         }
-        var candidates = SelectedClass.Students.Where(s => s.IsPresent && s.Id != LuckyNumber).ToList();
+        var candidates = SelectedClass.Students.Where(s => s.IsPresent && s.Id != LuckyNumber && s.SelectedCounter<=0).ToList();
 
         if (!candidates.Any())
         {
@@ -54,12 +56,15 @@ public partial class ClassesViewModel : ObservableObject
 
         var rnd = new Random();
         var winner = candidates[rnd.Next(candidates.Count)];
-        SelectedStudentName = $"{winner.Name} (Id: {winner.Id})";
-    }
+        foreach(var s in SelectedClass.Students)
+        {
+            if(s.SelectedCounter > 0)
+            s.SelectedCounter -= 1;
+            if (s.Id == winner.Id)
+                s.SelectedCounter = 3;
+        }
 
-    [RelayCommand]
-    async Task SavePresence()
-    {
+        SelectedStudentName = $"{winner.Id}.{winner.Name}";
         await ClassRepository.SaveAsync();
     }
 }

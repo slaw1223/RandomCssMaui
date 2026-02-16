@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using RandomCssMaui.Models;
 
 namespace RandomCssMaui.Data;
@@ -15,7 +16,6 @@ public static class ClassRepository
         Classes.Clear();
         if (!File.Exists(FilePath))
             return;
-
         var lines = await File.ReadAllLinesAsync(FilePath);
         ClassModel? current = null;
 
@@ -37,26 +37,27 @@ public static class ClassRepository
             else if (line.StartsWith("-") && current != null)
             {
                 var studentRaw = line.Substring(1).Trim();
-                // Nowy format zapisu: "id|Name|present" gdzie present = 1 lub 0
                 var parts = studentRaw.Split('|');
                 if (parts.Length >= 2 && int.TryParse(parts[0], out var id))
                 {
                     var studentName = parts[1].Trim();
                     bool isPresent = true;
+                    var selectedCounter = 0;
                     if (parts.Length >= 3)
                     {
                         var p = parts[2].Trim();
                         if (int.TryParse(p, out var pInt))
                             isPresent = pInt != 0;
-                        else if (bool.TryParse(p, out var pBool))
-                            isPresent = pBool;
+                        //else if (bool.TryParse(p, out var pBool))
+                            //isPresent = pBool;
+                        p = parts[3].Trim();
+                        int.TryParse(p, out selectedCounter);
                     }
 
-                    current.AddExistingStudent(new StudentModel(id, studentName, isPresent));
+                    current.AddExistingStudent(new StudentModel(id, studentName, isPresent, selectedCounter));
                 }
                 else
                 {
-                    // stary format: tylko nazwa -> nadajemy id automatycznie i obecnoœæ = true
                     current.AddStudent(studentRaw);
                 }
             }
@@ -66,12 +67,12 @@ public static class ClassRepository
     public static async Task SaveAsync()
     {
         var sb = new System.Text.StringBuilder();
-        foreach (var cls in Classes)
+        foreach (var c in Classes)
         {
-            sb.AppendLine($"Class: {cls.Name}");
-            foreach (var s in cls.Students)
-                // zapisujemy id, nazwê i flagê obecnoœci (1 = obecny, 0 = nieobecny)
-                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}");
+            sb.AppendLine($"Class: {c.Name}");
+            foreach (var s in c.Students)
+//1 obecny
+                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}|{s.SelectedCounter}");
             sb.AppendLine();
         }
 

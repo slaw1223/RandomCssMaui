@@ -9,15 +9,13 @@ public class ClassModel
     public string Name { get; set; } = string.Empty;
     public ObservableCollection<StudentModel> Students { get; set; } = new ObservableCollection<StudentModel>();
 
-    // licznik id specyficzny dla tej klasy
     private int _nextStudentId = 0;
 
     public ClassModel(string name) => Name = name;
 
-    // Tworzy ucznia z id przydzielonym per-klasie i dodaje go do kolekcji
     public StudentModel AddStudent(string name)
     {
-        // zainicjalizuj licznik na podstawie istniej¹cych uczniów przy pierwszym u¿yciu
+//licznik na podstawie istniej¹cych uczniów
         if (_nextStudentId == 0)
         {
             _nextStudentId = Students.Any() ? Students.Max(s => s.Id) : 0;
@@ -29,11 +27,10 @@ public class ClassModel
         return student;
     }
 
-    // przy dodawaniu istniej¹cego ucznia (np. przy wczytywaniu) zapewnij w³aœciwy nextId
     public void AddExistingStudent(StudentModel student)
     {
         Students.Add(student);
-        // ustaw licznik tak, ¿eby nastêpne id by³o wiêksze ni¿ istniej¹ce
+//ustaw licznik tak, ¿eby nastêpne id by³o wiêksze ni¿ istniej¹ce
         int observed = _nextStudentId;
         while (observed <= student.Id)
         {
