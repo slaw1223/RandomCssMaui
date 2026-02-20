@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RandomCssMaui.Views.ClassesPage"
-             Title="Lista klas">
+             Title="Losuj ucznia">
     <ScrollView>
         <StackLayout Padding="12" Spacing="8">
             <Label Text="Wybierz klasę" FontAttributes="Bold" FontSize="Medium" />
@@ -24,7 +24,7 @@
                         <Frame class="card">
                             <HorizontalStackLayout VerticalOptions="Center" Spacing="12">
                                 <CheckBox IsChecked="{Binding IsPresent}" VerticalOptions="Center" />
-                                <VerticalStackLayout>
+                                <VerticalStackLayout class="noMargin">
                                     <Label Text="{Binding Name}" />
                                     <Label Text="{Binding Id, StringFormat='Id: {0}'}" class="small" />
                                 </VerticalStackLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RandomCssMaui.Views.EditClassPage"
+             x:Name="Root"
+             Title="Edytuj klasy">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Picker Title="Wybierz klasę"
+                    ItemsSource="{Binding Classes}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedClass}" />
+
+            <CollectionView ItemsSource="{Binding SelectedClass.Students}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedStudent}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="8" Margin="0,4">
+                            <HorizontalStackLayout VerticalOptions="Center" Spacing="8">
+                                <Label Text="{Binding Id}" WidthRequest="36" HorizontalTextAlignment="Center" />
+                                <Label Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+                                <Button Text="Edytuj"
+                                        Command="{Binding BindingContext.BeginEditStudentCommand, Source={x:Reference Root}}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Text="Usuń"
+                                        Command="{Binding BindingContext.RemoveStudentCommand, Source={x:Reference Root}}"
+                                        CommandParameter="{Binding .}" />
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <HorizontalStackLayout Spacing="8">
+                <Entry Placeholder="Nowy uczeń" Text="{Binding NewStudentName}" HorizontalOptions="FillAndExpand" />
+                <Button Text="Dodaj" Command="{Binding AddStudentCommand}" />
+            </HorizontalStackLayout>
+            
+            <StackLayout>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedStudent}" Value="{x:Null}">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+
+                <Label Text="Edycja zaznaczonego ucznia" FontAttributes="Bold" />
+                <HorizontalStackLayout Spacing="8">
+                    <Entry Text="{Binding EditStudentName}" HorizontalOptions="FillAndExpand" />
+                    <Button Text="Zapisz" Command="{Binding SaveEditStudentCommand}" />
+                </HorizontalStackLayout>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

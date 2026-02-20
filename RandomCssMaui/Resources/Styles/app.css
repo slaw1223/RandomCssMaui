@@ -1,26 +1,27 @@
-﻿VerticalStackLayout.page-stack {
+﻿VerticalStackLayout{
     padding: 20;
     spacing: 12;
 }
-contentpage{
-    color: red;
+^contentpage {
+    background-color: #023047;
 }
 
-HorizontalStackLayout.actions {
-    spacing: 8;
+Label .header {
+    font-weight: 700;
+    color: #fb8500;
+    text-align:center;
 }
 
-Label.header {
-    font-weight: bold; 
-    color: #FF0000;
-}
-
-Label.small {
-    font-size: 12px;
+Label .small {
+    font-size: 12;
     color: #6E6E6E;
 }
+datatemplate label{
+    color: #023047;
+    font-size: 14;
+}   
 
-Frame.card {
+Frame .card {
     border-color: #C8C8C8;
     border-radius: 6;
     padding: 8;
@@ -31,12 +32,10 @@ CollectionView {
     margin: 0;
 }
 
-Shell {
-    background-color: #FF0000;
-    color: #FFFFFF;
+VerticalStackLayout * {
+    margin: 5;
 }
 
-Shell Label {
-    color: #FFFFFF;
-    font-weight: 600;
+.noMargin *{
+    margin: 0;
 }

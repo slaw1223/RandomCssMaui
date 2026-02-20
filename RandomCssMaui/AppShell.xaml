@@ -10,11 +10,15 @@
 
     <TabBar>
         <ShellContent
-            Title="Dodaj Uczniów"
+            Title="Dodaj ucznia"
             ContentTemplate="{DataTemplate views:AddPage}"
             />
         <ShellContent
-            Title="Przeglądaj Klasy"
+            Title="Edytuj klasy"
+            ContentTemplate="{DataTemplate views:EditClassPage}"
+            />
+        <ShellContent
+            Title="Losuj ucznia"
             ContentTemplate="{DataTemplate views:ClassesPage}"
             />
     </TabBar>

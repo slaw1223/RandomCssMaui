@@ -2,9 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RandomCssMaui.Views.AddPage"
-             Title="Dodaj klasę i ucznia">
+             Title="Dodaj ucznia">
+
     <ScrollView>
-        <VerticalStackLayout class="page-stack">
+        <VerticalStackLayout>
             <Label Text="Nowa klasa" class="header" />
             <Entry Text="{Binding NewClassName}" Placeholder="Nazwa klasy" />
 
@@ -12,8 +13,8 @@
 
             <Label Text="Wybierz klasę" class="header" />
             <Picker ItemsSource="{Binding Classes}"
-    ItemDisplayBinding="{Binding Name}"
-    SelectedItem="{Binding SelectedClass}" />
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedClass}" />
 
             <Label Text="Dodaj ucznia do zaznaczonej klasy" class="header" />
             <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
@@ -31,10 +32,10 @@
                         <Frame class="card">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Name}" class="header" />
-                                <CollectionView ItemsSource="{Binding Students}">
+                                <CollectionView ItemsSource="{Binding Students}" >
                                     <CollectionView.ItemTemplate >
                                         <DataTemplate>
-                                            <Label Text="{Binding Name}" class="small" />
+                                            <Label Text="{Binding Name}" StyleClass="small" />
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
