@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using RandomCssMaui.Models;
 
 namespace RandomCssMaui.Data;
@@ -9,13 +8,20 @@ public static class ClassRepository
     const string FileName = "classes.txt";
     static string FilePath => Path.Combine(FileSystem.AppDataDirectory, FileName);
 
+    static readonly Dictionary<ClassModel, int> _nextIds = new();
+    static readonly object _lock = new();
+
     public static ObservableCollection<ClassModel> Classes { get; } = new ObservableCollection<ClassModel>();
 
     public static async Task LoadAsync()
     {
         Classes.Clear();
+        lock (_lock)
+            _nextIds.Clear();
+
         if (!File.Exists(FilePath))
             return;
+
         var lines = await File.ReadAllLinesAsync(FilePath);
         ClassModel? current = null;
 
@@ -31,8 +37,10 @@ public static class ClassRepository
             if (line.StartsWith("Class:"))
             {
                 var name = line.Substring("Class:".Length).Trim();
-                current = new ClassModel(name);
+                current = new ClassModel { Name = name };
                 Classes.Add(current);
+                lock (_lock)
+                    _nextIds[current] = 0;
             }
             else if (line.StartsWith("-") && current != null)
             {
@@ -42,23 +50,28 @@ public static class ClassRepository
                 {
                     var studentName = parts[1].Trim();
                     bool isPresent = true;
-                    var selectedCounter = 0;
                     if (parts.Length >= 3)
                     {
                         var p = parts[2].Trim();
                         if (int.TryParse(p, out var pInt))
                             isPresent = pInt != 0;
-                        //else if (bool.TryParse(p, out var pBool))
-                            //isPresent = pBool;
-                        p = parts[3].Trim();
-                        int.TryParse(p, out selectedCounter);
+                        else if (bool.TryParse(p, out var pBool))
+                            isPresent = pBool;
                     }
 
-                    current.AddExistingStudent(new StudentModel(id, studentName, isPresent, selectedCounter));
+                    var student = new StudentModel { Id = id, Name = studentName, IsPresent = isPresent };
+                    current.Students.Add(student);
+
+                    lock (_lock)
+                    {
+                        if (!_nextIds.TryGetValue(current, out var cur)) cur = 0;
+                        if (id > cur) _nextIds[current] = id;
+                    }
                 }
                 else
                 {
-                    current.AddStudent(studentRaw);
+                    var student = new StudentModel { Name = studentRaw, IsPresent = true };
+                    current.Students.Add(student);
                 }
             }
         }
@@ -67,17 +80,41 @@ public static class ClassRepository
     public static async Task SaveAsync()
     {
         var sb = new System.Text.StringBuilder();
-        foreach (var c in Classes)
+        foreach (var cls in Classes)
         {
-            sb.AppendLine($"Class: {c.Name}");
-            foreach (var s in c.Students)
-//1 obecny
-                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}|{s.SelectedCounter}");
+            sb.AppendLine($"Class: {cls.Name}");
+            foreach (var s in cls.Students)
+                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}");
             sb.AppendLine();
         }
 
         var dir = Path.GetDirectoryName(FilePath) ?? FileSystem.AppDataDirectory;
         Directory.CreateDirectory(dir);
         await File.WriteAllTextAsync(FilePath, sb.ToString());
+    }
+
+    public static StudentModel AddStudentToClass(ClassModel cls, string name)
+    {
+        if (cls == null) throw new ArgumentNullException(nameof(cls));
+        lock (_lock)
+        {
+            if (!_nextIds.TryGetValue(cls, out var last)) 
+                last = cls.Students.Any() ? cls.Students.Max(s => s.Id) : 0;
+            last++;
+            _nextIds[cls] = last;
+
+            var student = new StudentModel { Id = last, Name = name, IsPresent = true, SelectedCounter = 0 };
+            cls.Students.Add(student);
+            return student;
+        }
+    }
+    public static async Task ClearAllAsync()
+    {
+        lock (_lock)
+        {
+            _nextIds.Clear();
+        }
+        Classes.Clear();
+        await SaveAsync();
     }
 }

@@ -1,41 +1,75 @@
-﻿VerticalStackLayout{
+﻿.appShell {
+    -maui-shell-background: #023047;
+    -maui-shell-title: #fb8500;
+    -maui-shell-tabbar-background: #063E56;
+    -maui-shell-tabbar-title: #FB8500;
+    -maui-shell-tabbar-unselected: #D2D74C;
+}
+verticalstacklayout {
     padding: 20;
     spacing: 12;
 }
+
 ^contentpage {
-    background-color: #023047;
+    background-color: #219EBC;
 }
 
-Label .header {
-    font-weight: 700;
-    color: #fb8500;
-    text-align:center;
-}
-
-Label .small {
-    font-size: 12;
-    color: #6E6E6E;
-}
-datatemplate label{
-    color: #023047;
-    font-size: 14;
-}   
-
-Frame .card {
-    border-color: #C8C8C8;
-    border-radius: 6;
-    padding: 8;
-    margin: 4;
-}
-
-CollectionView {
-    margin: 0;
-}
-
-VerticalStackLayout * {
+^verticalstacklayout *{
     margin: 5;
 }
 
-.noMargin *{
-    margin: 0;
+.container {
+    background-color: #126782;
+    border-radius: 8;
+    padding: 12;
+}
+
+button, entry, picker {
+    color: #D2D74C;
+    -maui-placeholder-color: #D2D74C;
+}
+
+label {
+    color: #FB8500;
+}
+
+.header {
+    font-weight: bolder;
+    font-size: 30;
+    text-align: center;
+    margin-bottom: 20;
+    margin-top: -10;
+}
+
+.small {
+    font-size: 12;
+}
+.big {
+    font-size: 20;
+}
+
+.classContainer {
+    background-color: #1A839F;
+    border-radius: 8;
+}
+
+.classContainer .header {
+    margin-top: -30;
+}
+
+.studentsContainer {
+    background-color: #219EBC;
+}
+
+.studentsContainer > label {
+    font-size: 14;
+    color: #D2D74C;
+    text-align: center;
+}
+
+#selectedStudent{
+    font-size: 20;
+    color: #D2D74C;
+    text-align: center;
+    margin-top: 10;
 }

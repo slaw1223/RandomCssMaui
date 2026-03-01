@@ -4,35 +4,52 @@
              x:Class="RandomCssMaui.Views.ClassesPage"
              Title="Losuj ucznia">
     <ScrollView>
-        <StackLayout Padding="12" Spacing="8">
-            <Label Text="Wybierz klasę" FontAttributes="Bold" FontSize="Medium" />
-            <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
+        <VerticalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Wybierz klasę" class="header" />
+                        <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
+                    </VerticalStackLayout>
+                </Frame>
 
-            <HorizontalStackLayout Spacing="8">
-                <Button Text="Wylosuj ucznia" Command="{Binding DrawStudentCommand}" />
-                <Label Text="Szczęśliwy numerek:" VerticalOptions="Center" />
-                <Label Text="{Binding LuckyNumber}" VerticalOptions="Center" />
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Losowanie ucznia" class="header" />
+                        <Button Text="Wylosuj ucznia" Command="{Binding DrawStudentCommand}" />
+                        <HorizontalStackLayout>
+                            <Label Text="Szczęśliwy numerek:" VerticalOptions="Center" />
+                            <Label Text="{Binding LuckyNumber}" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Wylosowany uczeń:" class="header" />
+                        <Label Text="{Binding SelectedStudentName}" StyleId="selectedStudent"/>
+                    </VerticalStackLayout>
+                </Frame>
+
             </HorizontalStackLayout>
 
-            <Label Text="Wylosowany uczeń:" FontAttributes="Bold" />
-            <Label Text="{Binding SelectedStudentName}" />
-
-            <Label Text="Lista uczniów" class="header" />
-            <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame class="card">
-                            <HorizontalStackLayout VerticalOptions="Center" Spacing="12">
-                                <CheckBox IsChecked="{Binding IsPresent}" VerticalOptions="Center" />
-                                <VerticalStackLayout class="noMargin">
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text="{Binding Id, StringFormat='Id: {0}'}" class="small" />
-                                </VerticalStackLayout>
-                            </HorizontalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
+            <Frame class="container">
+                <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame class="classContainer">
+                                <HorizontalStackLayout>
+                                    <CheckBox IsChecked="{Binding IsPresent}"/>
+                                    <Label Text="{Binding Id}" class="big"/>
+                                    <Label Text="{Binding Name}" class="big"/>
+                                    <Label Text="{Binding SelectedCounter, StringFormat='Licznik: {0}'}" class="small"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

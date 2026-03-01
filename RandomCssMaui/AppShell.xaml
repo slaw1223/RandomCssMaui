@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:RandomCssMaui"
     xmlns:views="clr-namespace:RandomCssMaui.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="RandomCssMaui">
+    Title="RandomCssMaui"
+    StyleClass="appShell">
 
     <TabBar>
         <ShellContent

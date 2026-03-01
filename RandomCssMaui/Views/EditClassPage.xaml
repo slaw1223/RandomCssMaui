@@ -6,51 +6,60 @@
              Title="Edytuj klasy">
     <ScrollView>
         <VerticalStackLayout>
-            <Picker Title="Wybierz klasę"
-                    ItemsSource="{Binding Classes}"
-                    ItemDisplayBinding="{Binding Name}"
-                    SelectedItem="{Binding SelectedClass}" />
 
-            <CollectionView ItemsSource="{Binding SelectedClass.Students}"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedStudent}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Padding="8" Margin="0,4">
-                            <HorizontalStackLayout VerticalOptions="Center" Spacing="8">
-                                <Label Text="{Binding Id}" WidthRequest="36" HorizontalTextAlignment="Center" />
-                                <Label Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
-                                <Button Text="Edytuj"
-                                        Command="{Binding BindingContext.BeginEditStudentCommand, Source={x:Reference Root}}"
-                                        CommandParameter="{Binding .}" />
-                                <Button Text="Usuń"
-                                        Command="{Binding BindingContext.RemoveStudentCommand, Source={x:Reference Root}}"
-                                        CommandParameter="{Binding .}" />
-                            </HorizontalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Wybierz klasę" class="header"/>
+                        <Picker ItemsSource="{Binding Classes}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedClass}"
+                                />
+                    </VerticalStackLayout>
+                </Frame>
 
 
-            <HorizontalStackLayout Spacing="8">
-                <Entry Placeholder="Nowy uczeń" Text="{Binding NewStudentName}" HorizontalOptions="FillAndExpand" />
-                <Button Text="Dodaj" Command="{Binding AddStudentCommand}" />
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Dodaj ucznia" class="header" />
+                        <Entry Placeholder="Imię ucznia" Text="{Binding NewStudentName}"/>
+                        <Button Text="Dodaj" Command="{Binding AddStudentCommand}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Edytuj zaznaczonego ucznia" class="header"/>
+                        <Entry Text="{Binding EditStudentName}"/>
+                        <Button Text="Zapisz" Command="{Binding SaveEditStudentCommand}" />
+                    </VerticalStackLayout>
+                </Frame>
             </HorizontalStackLayout>
             
-            <StackLayout>
-                <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedStudent}" Value="{x:Null}">
-                        <Setter Property="IsVisible" Value="False" />
-                    </DataTrigger>
-                </StackLayout.Triggers>
+            <Frame class="container">
+                <VerticalStackLayout>
+                    <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="Single" SelectedItem="{Binding SelectedStudent}">
 
-                <Label Text="Edycja zaznaczonego ucznia" FontAttributes="Bold" />
-                <HorizontalStackLayout Spacing="8">
-                    <Entry Text="{Binding EditStudentName}" HorizontalOptions="FillAndExpand" />
-                    <Button Text="Zapisz" Command="{Binding SaveEditStudentCommand}" />
-                </HorizontalStackLayout>
-            </StackLayout>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame class="classContainer">
+                                    <HorizontalStackLayout>
+                                        <Label Text="{Binding Id}" class="big"/>
+                                        <Label Text="{Binding Name}" class="big"/>
+                                        <Button Text="Edytuj" Command="{Binding BindingContext.BeginEditStudentCommand, Source={x:Reference Root}}" CommandParameter="{Binding .}" />
+                                        <Button Text="Usuń" Command="{Binding BindingContext.RemoveStudentCommand, Source={x:Reference Root}}" CommandParameter="{Binding .}" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

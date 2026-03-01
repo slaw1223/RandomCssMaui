@@ -33,26 +33,30 @@ public partial class AddPageViewModel : ObservableObject
 
         if (!Classes.Any(c => c.Name.Equals(NewClassName.Trim(), StringComparison.OrdinalIgnoreCase)))
         {
-            Classes.Add(new ClassModel(NewClassName.Trim()));
+            Classes.Add(new ClassModel { Name = NewClassName.Trim() });
             NewClassName = string.Empty;
         }
     }
 
     [RelayCommand]
-    async Task AddStudent()
+    void AddStudent()
     {
         if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
             return;
 
-        SelectedClass.AddStudent(NewStudentName.Trim());
+        ClassRepository.AddStudentToClass(SelectedClass, NewStudentName.Trim());
         NewStudentName = string.Empty;
+    }
+
+    [RelayCommand]
+    async Task Save()
+    {
         await ClassRepository.SaveAsync();
     }
 
     [RelayCommand]
     async Task RemoveAll()
     {
-        Classes.Clear();
-        await ClassRepository.SaveAsync();
+        await ClassRepository.ClearAllAsync();
     }
 }

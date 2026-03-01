@@ -36,7 +36,7 @@ public partial class EditClassViewModel : ObservableObject
         if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
             return;
 
-        SelectedClass.AddStudent(NewStudentName.Trim());
+        ClassRepository.AddStudentToClass(SelectedClass, NewStudentName.Trim());
         NewStudentName = string.Empty;
         await ClassRepository.SaveAsync();
     }
@@ -71,6 +71,7 @@ public partial class EditClassViewModel : ObservableObject
         if (SelectedStudent == null || SelectedClass == null || string.IsNullOrWhiteSpace(EditStudentName))
             return;
 
+        // StudentModel implementuje powiadamianie — ustawienie Name odświeży UI
         SelectedStudent.Name = EditStudentName.Trim();
         EditStudentName = string.Empty;
         await ClassRepository.SaveAsync();

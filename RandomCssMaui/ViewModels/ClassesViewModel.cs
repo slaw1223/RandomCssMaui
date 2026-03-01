@@ -30,7 +30,6 @@ public partial class ClassesViewModel : ObservableObject
     [ObservableProperty]
     int luckyNumber;
 
-    int selectedCounter;
 
     [RelayCommand]
     async Task DrawStudent()
@@ -64,7 +63,7 @@ public partial class ClassesViewModel : ObservableObject
                 s.SelectedCounter = 3;
         }
 
-        SelectedStudentName = $"{winner.Id}.{winner.Name}";
+        SelectedStudentName = $"{winner.Id} {winner.Name}";
         await ClassRepository.SaveAsync();
     }
 }

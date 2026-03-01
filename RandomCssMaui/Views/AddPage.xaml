@@ -6,44 +6,73 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <Label Text="Nowa klasa" class="header" />
-            <Entry Text="{Binding NewClassName}" Placeholder="Nazwa klasy" />
 
-            <Button Text="Dodaj klasę" Command="{Binding AddClassCommand}" />
+            <HorizontalStackLayout HorizontalOptions="Center">
+                
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Nowa klasa" class="header" />
+                        <Entry Text="{Binding NewClassName}" Placeholder="Nazwa klasy" />
 
-            <Label Text="Wybierz klasę" class="header" />
-            <Picker ItemsSource="{Binding Classes}"
-                    ItemDisplayBinding="{Binding Name}"
-                    SelectedItem="{Binding SelectedClass}" />
+                        <Button Text="Dodaj klasę" Command="{Binding AddClassCommand}" />
+                    </VerticalStackLayout>
+                </Frame>
 
-            <Label Text="Dodaj ucznia do zaznaczonej klasy" class="header" />
-            <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Wybierz klasę" class="header" />
+                        <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
+                    </VerticalStackLayout>
+                </Frame>
 
-            <HorizontalStackLayout class="actions">
-                <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
-                <Button Text="Edytuj ucznia"/>
-                <Button Text="Wyczyść wszystko" Command="{Binding RemoveAllCommand}" />
+                <Frame class="container">
+                    <VerticalStackLayout>
+                        <Label Text="Dodaj ucznia" class="header" />
+                        <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
+                        <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />                            
+                    </VerticalStackLayout>
+                </Frame>
+                
             </HorizontalStackLayout>
 
-            <Label Text="Klasy i uczniowie" class="header" />
-            <CollectionView ItemsSource="{Binding Classes}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame class="card">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name}" class="header" />
-                                <CollectionView ItemsSource="{Binding Students}" >
-                                    <CollectionView.ItemTemplate >
-                                        <DataTemplate>
-                                            <Label Text="{Binding Name}" StyleClass="small" />
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </VerticalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Frame class="container">
+                <VerticalStackLayout>
+                    <Button Text="Usuń wszystko" Command="{Binding RemoveAllCommand}"/>
+                        <CollectionView ItemsSource="{Binding Classes}">
+                        
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="8" VerticalItemSpacing="8" />
+                        </CollectionView.ItemsLayout>
+                        
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame class="classContainer">
+                                    <VerticalStackLayout>
+
+                                        <Label Text="{Binding Name}" class="header" />
+
+
+                                        <CollectionView ItemsSource="{Binding Students}" >
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="3" VerticalItemSpacing="3" />
+                                            </CollectionView.ItemsLayout>
+
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Frame class="studentsContainer">
+                                                        <Label Text="{Binding Name}" StyleId="StudentName"/>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
