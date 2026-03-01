@@ -29,7 +29,7 @@ public partial class AddPageViewModel : ObservableObject
     void AddClass()
     {
         if (string.IsNullOrWhiteSpace(NewClassName))
-            return;
+        return;
 
         if (!Classes.Any(c => c.Name.Equals(NewClassName.Trim(), StringComparison.OrdinalIgnoreCase)))
         {
