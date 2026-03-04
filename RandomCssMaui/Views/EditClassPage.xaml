@@ -27,11 +27,11 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame class="container">
+                <Frame IsEnabled="{Binding IsEditEnabled}" class="container">
                     <VerticalStackLayout>
                         <Label Text="Edytuj zaznaczonego ucznia" class="header"/>
-                        <Entry Text="{Binding EditStudentName}"/>
-                        <Button Text="Zapisz" Command="{Binding SaveEditStudentCommand}" />
+                        <Entry Text="{Binding EditStudentName}" />
+                        <Button Text="Zapisz" Command="{Binding SaveEditStudentCommand}"/>
                     </VerticalStackLayout>
                 </Frame>
             </HorizontalStackLayout>

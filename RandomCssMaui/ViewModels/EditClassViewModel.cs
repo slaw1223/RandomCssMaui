@@ -24,6 +24,9 @@ public partial class EditClassViewModel : ObservableObject
     [ObservableProperty]
     string editStudentName = string.Empty;
 
+    [ObservableProperty]
+    bool isEditEnabled;
+
     public EditClassViewModel()
     {
     }
@@ -63,6 +66,7 @@ public partial class EditClassViewModel : ObservableObject
 
         SelectedStudent = s;
         EditStudentName = s.Name;
+        IsEditEnabled = true;
     }
 
     [RelayCommand]
@@ -70,10 +74,9 @@ public partial class EditClassViewModel : ObservableObject
     {
         if (SelectedStudent == null || SelectedClass == null || string.IsNullOrWhiteSpace(EditStudentName))
             return;
-
-        // StudentModel implementuje powiadamianie — ustawienie Name odświeży UI
         SelectedStudent.Name = EditStudentName.Trim();
         EditStudentName = string.Empty;
+        IsEditEnabled = false;
         await ClassRepository.SaveAsync();
     }
 }

@@ -10,7 +10,7 @@ public static class ClassRepository
 
     static readonly Dictionary<ClassModel, int> _nextIds = new();
     static readonly object _lock = new();
-
+//zapobiego duplikacji _nextIds
     public static ObservableCollection<ClassModel> Classes { get; } = new ObservableCollection<ClassModel>();
 
     public static async Task LoadAsync()
@@ -55,11 +55,17 @@ public static class ClassRepository
                         var p = parts[2].Trim();
                         if (int.TryParse(p, out var pInt))
                             isPresent = pInt != 0;
-                        else if (bool.TryParse(p, out var pBool))
-                            isPresent = pBool;
+                    }
+                    int SelectedCounter = 0;
+                    if (parts.Length >= 4)
+                    {
+                        var c = parts[3].Trim();
+                        if (int.TryParse(c, out var cInt))
+                        SelectedCounter = cInt;
+                            
                     }
 
-                    var student = new StudentModel { Id = id, Name = studentName, IsPresent = isPresent };
+                    var student = new StudentModel { Id = id, Name = studentName, IsPresent = isPresent, SelectedCounter = SelectedCounter };
                     current.Students.Add(student);
 
                     lock (_lock)
@@ -67,11 +73,6 @@ public static class ClassRepository
                         if (!_nextIds.TryGetValue(current, out var cur)) cur = 0;
                         if (id > cur) _nextIds[current] = id;
                     }
-                }
-                else
-                {
-                    var student = new StudentModel { Name = studentRaw, IsPresent = true };
-                    current.Students.Add(student);
                 }
             }
         }
@@ -84,7 +85,7 @@ public static class ClassRepository
         {
             sb.AppendLine($"Class: {cls.Name}");
             foreach (var s in cls.Students)
-                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}");
+                sb.AppendLine($"- {s.Id}|{s.Name}|{(s.IsPresent ? 1 : 0)}|{(s.SelectedCounter)}");
             sb.AppendLine();
         }
 

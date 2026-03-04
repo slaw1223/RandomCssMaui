@@ -19,18 +19,17 @@
                 </Frame>
 
                 <Frame class="container">
-                    <VerticalStackLayout>
-                        <Label Text="Wybierz klasę" class="header" />
-                        <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
-                    </VerticalStackLayout>
-                </Frame>
-
-                <Frame class="container">
-                    <VerticalStackLayout>
-                        <Label Text="Dodaj ucznia" class="header" />
-                        <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
-                        <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />                            
-                    </VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="Wybierz klasę" class="header" />
+                            <Picker ItemsSource="{Binding Classes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedClass}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="Dodaj ucznia" class="header" />
+                            <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
+                            <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
                 </Frame>
                 
             </HorizontalStackLayout>
@@ -46,28 +45,28 @@
                         
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame class="classContainer">
-                                    <VerticalStackLayout>
+                                <ScrollView>
+                                    <Frame class="classContainer">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Name}" class="header" />
 
-                                        <Label Text="{Binding Name}" class="header" />
 
+                                            <CollectionView ItemsSource="{Binding Students}" >
+                                                <CollectionView.ItemsLayout>
+                                                    <GridItemsLayout Orientation="Vertical" Span="5" HorizontalItemSpacing="3" VerticalItemSpacing="3" />
+                                                </CollectionView.ItemsLayout>
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame class="studentsContainer">
+                                                            <Label Text="{Binding Name}" StyleId="StudentName"/>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
 
-                                        <CollectionView ItemsSource="{Binding Students}" >
-                                            <CollectionView.ItemsLayout>
-                                                <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="3" VerticalItemSpacing="3" />
-                                            </CollectionView.ItemsLayout>
-
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Frame class="studentsContainer">
-                                                        <Label Text="{Binding Name}" StyleId="StudentName"/>
-                                                    </Frame>
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-
-                                    </VerticalStackLayout>
-                                </Frame>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </ScrollView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

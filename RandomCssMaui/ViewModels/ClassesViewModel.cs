@@ -66,4 +66,9 @@ public partial class ClassesViewModel : ObservableObject
         SelectedStudentName = $"{winner.Id} {winner.Name}";
         await ClassRepository.SaveAsync();
     }
+    [RelayCommand]
+    async Task SavePresency()
+    {
+        await ClassRepository.SaveAsync();
+    }
 }

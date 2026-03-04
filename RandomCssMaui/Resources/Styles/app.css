@@ -59,6 +59,7 @@ label {
 
 .studentsContainer {
     background-color: #219EBC;
+    padding: 10;
 }
 
 .studentsContainer > label {
@@ -72,4 +73,8 @@ label {
     color: #D2D74C;
     text-align: center;
     margin-top: 10;
+}
+
+#disabled {
+    background-color:dimgrey;
 }

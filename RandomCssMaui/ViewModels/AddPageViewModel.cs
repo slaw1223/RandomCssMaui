@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RandomCssMaui.Models;
 using RandomCssMaui.Data;
+using System.Threading.Tasks;
 
 namespace RandomCssMaui.ViewModels;
 
@@ -16,7 +17,7 @@ public partial class AddPageViewModel : ObservableObject
     string newStudentName = string.Empty;
 
     [ObservableProperty]
-    ClassModel? selectedClass;
+    ClassModel selectedClass;
 
     public ObservableCollection<ClassModel> Classes => ClassRepository.Classes;
 
@@ -26,7 +27,7 @@ public partial class AddPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    void AddClass()
+    async Task AddClass()
     {
         if (string.IsNullOrWhiteSpace(NewClassName))
         return;
@@ -35,22 +36,18 @@ public partial class AddPageViewModel : ObservableObject
         {
             Classes.Add(new ClassModel { Name = NewClassName.Trim() });
             NewClassName = string.Empty;
+            await ClassRepository.SaveAsync();
         }
     }
 
     [RelayCommand]
-    void AddStudent()
+    async Task AddStudent()
     {
         if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
             return;
 
         ClassRepository.AddStudentToClass(SelectedClass, NewStudentName.Trim());
         NewStudentName = string.Empty;
-    }
-
-    [RelayCommand]
-    async Task Save()
-    {
         await ClassRepository.SaveAsync();
     }
 

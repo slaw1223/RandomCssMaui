@@ -35,20 +35,26 @@
             </HorizontalStackLayout>
 
             <Frame class="container">
-                <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame class="classContainer">
-                                <HorizontalStackLayout>
-                                    <CheckBox IsChecked="{Binding IsPresent}"/>
-                                    <Label Text="{Binding Id}" class="big"/>
-                                    <Label Text="{Binding Name}" class="big"/>
-                                    <Label Text="{Binding SelectedCounter, StringFormat='Licznik: {0}'}" class="small"/>
-                                </HorizontalStackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <VerticalStackLayout>
+                    <Button Command="{Binding SavePresencyCommand}" Text="Zapisz obecność"/>
+                    <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="3" VerticalItemSpacing="3" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame class="classContainer">
+                                    <HorizontalStackLayout>
+                                        <CheckBox IsChecked="{Binding IsPresent}"/>
+                                        <Label Text="{Binding Id}" class="big"/>
+                                        <Label Text="{Binding Name}" class="big"/>
+                                        <Label Text="{Binding SelectedCounter, StringFormat='Licznik: {0}'}" class="small"/>
+                                    </HorizontalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
     </ScrollView>
