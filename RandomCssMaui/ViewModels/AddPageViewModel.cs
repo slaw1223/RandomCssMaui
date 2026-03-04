@@ -7,7 +7,7 @@ using RandomCssMaui.Data;
 using System.Threading.Tasks;
 
 namespace RandomCssMaui.ViewModels;
-
+//Pozbyæ siê zmiennych z viewmodeli -> wszystko do modeli
 public partial class AddPageViewModel : ObservableObject
 {
     [ObservableProperty]

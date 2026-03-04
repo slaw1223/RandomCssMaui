@@ -11,7 +11,7 @@ namespace RandomCssMaui.ViewModels;
 public partial class EditClassViewModel : ObservableObject
 {
     public ObservableCollection<ClassModel> Classes => ClassRepository.Classes;
-
+//pobiera kolekcję z ClassReposiotory
     [ObservableProperty]
     ClassModel? selectedClass;
 
