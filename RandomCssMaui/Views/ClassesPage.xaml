@@ -6,7 +6,15 @@
     <ScrollView>
         <VerticalStackLayout>
             <HorizontalStackLayout HorizontalOptions="Center">
-                
+
+                <Frame class="container" IsEnabled="{Binding IsFrameEnabled}">
+                    <VerticalStackLayout>
+                        <Label Text="Połącz Arduino" class="header"/>
+                        <Button Text="Połącz" Command="{Binding ConnectArduinoCommand}"/>
+                        <Label Text="{Binding ArduinoConnectionStatus}" VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+
                 <Frame class="container">
                     <VerticalStackLayout>
                         <Label Text="Wybierz klasę" class="header" />
@@ -28,7 +36,7 @@
                 <Frame class="container">
                     <VerticalStackLayout>
                         <Label Text="Wylosowany uczeń:" class="header" />
-                        <Label Text="{Binding SelectedStudentName}" StyleId="selectedStudent"/>
+                        <Label Text="{Binding SelectedStudentName.DisplayName}" StyleId="selectedStudent"/>
                     </VerticalStackLayout>
                 </Frame>
 

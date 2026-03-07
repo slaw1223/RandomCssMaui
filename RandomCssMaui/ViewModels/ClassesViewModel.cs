@@ -1,55 +1,79 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
+using System.Linq;
 using RandomCssMaui.Models;
 using RandomCssMaui.Data;
-using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
+using System;
+using System.Threading.Tasks;
+using System.IO.Ports;
 
 namespace RandomCssMaui.ViewModels;
 
 public partial class ClassesViewModel : ObservableObject
 {
+    SerialPort port;
     public ObservableCollection<ClassModel> Classes => ClassRepository.Classes;
 
     public ClassesViewModel()
     {
         _ = ClassRepository.LoadAsync();
 
-        if (Application.Current is App app)
-            luckyNumber = app.LuckyNumber;
-        else
-            luckyNumber = new Random().Next(1, 31);
+        luckyNumber = new Random().Next(1, 31);
     }
 
     [ObservableProperty]
     ClassModel? selectedClass;
 
     [ObservableProperty]
-    string selectedStudentName = string.Empty;
+    StudentModel selectedStudentName = new StudentModel();
 
     [ObservableProperty]
     int luckyNumber;
 
+    [ObservableProperty]
+    string arduinoConnectionStatus = "Nie po³¹czono";
+
+    [ObservableProperty]
+    bool isFrameEnabled = true;
+
+    [RelayCommand]
+    void ConnectArduino()
+    {
+        try
+        {
+            port = new SerialPort("COM4", 9600);
+            port.ReadTimeout = 500;
+            port.Open();
+            ArduinoConnectionStatus = "Po³¹czono";
+            IsFrameEnabled = false;
+        }
+        catch (Exception ex)
+        {
+            ArduinoConnectionStatus = ex.Message;
+            Console.WriteLine($"Error connecting to Arduino: {ex.Message}");
+        }
+    }
 
     [RelayCommand]
     async Task DrawStudent()
     {
         if (SelectedClass == null)
         {
-            SelectedStudentName = "Wybierz klasê";
+            SelectedStudentName.DisplayName = "Wybierz klasê";
             return;
         }
 
         if (!SelectedClass.Students.Any(s => s.IsPresent))
         {
-            SelectedStudentName = "Brak obecnych uczniów w klasie";
+            SelectedStudentName.DisplayName = "Brak obecnych uczniów w klasie";
             return;
         }
         var candidates = SelectedClass.Students.Where(s => s.IsPresent && s.Id != LuckyNumber && s.SelectedCounter<=0).ToList();
 
         if (!candidates.Any())
         {
-            SelectedStudentName = "Brak kandydata";
+            SelectedStudentName.DisplayName = "Brak kandydata";
             return;
         }
 
@@ -58,12 +82,13 @@ public partial class ClassesViewModel : ObservableObject
         foreach(var s in SelectedClass.Students)
         {
             if(s.SelectedCounter > 0)
-            s.SelectedCounter -= 1;
+                s.SelectedCounter -= 1;
             if (s.Id == winner.Id)
                 s.SelectedCounter = 3;
         }
-
-        SelectedStudentName = $"{winner.Id} {winner.Name}";
+        if(port != null && port.IsOpen)
+            port.WriteLine($"START_ANIM | {winner.Id}");
+        SelectedStudentName.DisplayName = $"{winner.Id} {winner.Name}";
         await ClassRepository.SaveAsync();
     }
     [RelayCommand]

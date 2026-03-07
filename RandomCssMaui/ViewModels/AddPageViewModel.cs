@@ -7,35 +7,36 @@ using RandomCssMaui.Data;
 using System.Threading.Tasks;
 
 namespace RandomCssMaui.ViewModels;
-//Pozbyæ siê zmiennych z viewmodeli -> wszystko do modeli
 public partial class AddPageViewModel : ObservableObject
 {
     [ObservableProperty]
-    string newClassName = string.Empty;
+    ClassModel newClass = new ClassModel();
 
     [ObservableProperty]
-    string newStudentName = string.Empty;
+    StudentModel newStudent = new StudentModel();
 
     [ObservableProperty]
     ClassModel selectedClass;
 
     public ObservableCollection<ClassModel> Classes => ClassRepository.Classes;
+//pobiera kolekcjê z ClassRepository
 
     public AddPageViewModel()
     {
         _ = ClassRepository.LoadAsync();
+//metoda jest async ale nie czeekamy na wynik  'discard'
     }
 
     [RelayCommand]
     async Task AddClass()
     {
-        if (string.IsNullOrWhiteSpace(NewClassName))
-        return;
+        if (string.IsNullOrWhiteSpace(NewClass.NewClassName))
+            return;
 
-        if (!Classes.Any(c => c.Name.Equals(NewClassName.Trim(), StringComparison.OrdinalIgnoreCase)))
+        if (!Classes.Any(c => c.Name.Equals(NewClass.NewClassName.Trim(), StringComparison.OrdinalIgnoreCase)))
         {
-            Classes.Add(new ClassModel { Name = NewClassName.Trim() });
-            NewClassName = string.Empty;
+            Classes.Add(new ClassModel { Name = NewClass.NewClassName.Trim() });
+            NewClass.NewClassName = string.Empty;
             await ClassRepository.SaveAsync();
         }
     }
@@ -43,11 +44,11 @@ public partial class AddPageViewModel : ObservableObject
     [RelayCommand]
     async Task AddStudent()
     {
-        if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
+        if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudent.NewStudentName))
             return;
 
-        ClassRepository.AddStudentToClass(SelectedClass, NewStudentName.Trim());
-        NewStudentName = string.Empty;
+        ClassRepository.AddStudentToClass(SelectedClass, NewStudent.NewStudentName.Trim());
+        NewStudent.NewStudentName = string.Empty;
         await ClassRepository.SaveAsync();
     }
 

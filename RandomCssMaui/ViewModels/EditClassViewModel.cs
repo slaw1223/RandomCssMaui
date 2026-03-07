@@ -2,16 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using RandomCssMaui.Models;
 using RandomCssMaui.Data;
+using System.Threading.Tasks;
 
 namespace RandomCssMaui.ViewModels;
 
 public partial class EditClassViewModel : ObservableObject
 {
     public ObservableCollection<ClassModel> Classes => ClassRepository.Classes;
-//pobiera kolekcję z ClassReposiotory
     [ObservableProperty]
     ClassModel? selectedClass;
 
@@ -19,10 +18,7 @@ public partial class EditClassViewModel : ObservableObject
     StudentModel? selectedStudent;
 
     [ObservableProperty]
-    string newStudentName = string.Empty;
-
-    [ObservableProperty]
-    string editStudentName = string.Empty;
+    StudentModel newStudent = new StudentModel();
 
     [ObservableProperty]
     bool isEditEnabled;
@@ -36,11 +32,11 @@ public partial class EditClassViewModel : ObservableObject
     [RelayCommand]
     async Task AddStudent()
     {
-        if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudentName))
+        if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudent.NewStudentName))
             return;
 
-        ClassRepository.AddStudentToClass(SelectedClass, NewStudentName.Trim());
-        NewStudentName = string.Empty;
+        ClassRepository.AddStudentToClass(SelectedClass, NewStudent.NewStudentName.Trim());
+        NewStudent.NewStudentName = string.Empty;
         await ClassRepository.SaveAsync();
     }
 
@@ -65,17 +61,17 @@ public partial class EditClassViewModel : ObservableObject
             return;
 
         SelectedStudent = s;
-        EditStudentName = s.Name;
+        SelectedStudent.EditStudentName = s.Name;
         IsEditEnabled = true;
     }
 
     [RelayCommand]
     async Task SaveEditStudent()
     {
-        if (SelectedStudent == null || SelectedClass == null || string.IsNullOrWhiteSpace(EditStudentName))
+        if (SelectedStudent == null || SelectedClass == null || string.IsNullOrWhiteSpace(SelectedStudent.EditStudentName))
             return;
-        SelectedStudent.Name = EditStudentName.Trim();
-        EditStudentName = string.Empty;
+        SelectedStudent.Name = SelectedStudent.EditStudentName.Trim();
+        SelectedStudent.EditStudentName = string.Empty;
         IsEditEnabled = false;
         await ClassRepository.SaveAsync();
     }

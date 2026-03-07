@@ -22,7 +22,7 @@
                 <Frame class="container">
                     <VerticalStackLayout>
                         <Label Text="Dodaj ucznia" class="header" />
-                        <Entry Placeholder="Imię ucznia" Text="{Binding NewStudentName}"/>
+                        <Entry Placeholder="Imię ucznia" Text="{Binding NewStudent.NewStudentName}"/>
                         <Button Text="Dodaj" Command="{Binding AddStudentCommand}" />
                     </VerticalStackLayout>
                 </Frame>
@@ -30,12 +30,12 @@
                 <Frame IsEnabled="{Binding IsEditEnabled}" class="container">
                     <VerticalStackLayout>
                         <Label Text="Edytuj zaznaczonego ucznia" class="header"/>
-                        <Entry Text="{Binding EditStudentName}" />
+                        <Entry Text="{Binding SelectedStudent.EditStudentName, Mode=TwoWay}" />
                         <Button Text="Zapisz" Command="{Binding SaveEditStudentCommand}"/>
                     </VerticalStackLayout>
                 </Frame>
             </HorizontalStackLayout>
-            
+
             <Frame class="container">
                 <VerticalStackLayout>
                     <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="Single" SelectedItem="{Binding SelectedStudent}">

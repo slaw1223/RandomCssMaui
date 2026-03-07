@@ -12,7 +12,7 @@
                 <Frame class="container">
                     <VerticalStackLayout>
                         <Label Text="Nowa klasa" class="header" />
-                        <Entry Text="{Binding NewClassName}" Placeholder="Nazwa klasy" />
+                        <Entry Text="{Binding NewClass.NewClassName}" Placeholder="Nazwa klasy" />
 
                         <Button Text="Dodaj klasę" Command="{Binding AddClassCommand}" />
                     </VerticalStackLayout>
@@ -26,7 +26,7 @@
                         </VerticalStackLayout>
                         <VerticalStackLayout>
                             <Label Text="Dodaj ucznia" class="header" />
-                            <Entry Text="{Binding NewStudentName}" Placeholder="Imię ucznia" />
+                            <Entry Text="{Binding NewStudent.NewStudentName}" Placeholder="Imię ucznia" />
                             <Button Text="Dodaj ucznia" Command="{Binding AddStudentCommand}" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>

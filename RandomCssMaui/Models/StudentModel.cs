@@ -15,4 +15,13 @@ public partial class StudentModel : ObservableObject
 
     [ObservableProperty]
     int selectedCounter;
+
+    [ObservableProperty]
+    string newStudentName = string.Empty;
+
+    [ObservableProperty]
+    string editStudentName = string.Empty;
+
+    [ObservableProperty]
+    string displayName = string.Empty;
 }
