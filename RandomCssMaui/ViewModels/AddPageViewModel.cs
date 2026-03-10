@@ -42,6 +42,11 @@ public partial class AddPageViewModel : ObservableObject
             NewClass.NewClassName = string.Empty;
             await ClassRepository.SaveAsync();
         }
+        else
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Nazwa klasy ju¿ istnieje", "OK");
+            return;
+        }
     }
 
     [RelayCommand]
