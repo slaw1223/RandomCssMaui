@@ -46,7 +46,7 @@
                     <CollectionView ItemsSource="{Binding SelectedClass.Students}" SelectionMode="Single" SelectedItem="{Binding SelectedStudent}">
 
                         <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                            <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="3" VerticalItemSpacing="3" />
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>

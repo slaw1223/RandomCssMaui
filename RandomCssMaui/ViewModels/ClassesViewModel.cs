@@ -17,8 +17,6 @@ public partial class ClassesViewModel : ObservableObject
 
     public ClassesViewModel()
     {
-        _ = ClassRepository.LoadAsync();
-
         luckyNumber = new Random().Next(1, 31);
     }
 
