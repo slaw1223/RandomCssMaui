@@ -7,7 +7,7 @@
         <VerticalStackLayout>
             <HorizontalStackLayout HorizontalOptions="Center">
 
-                <Frame class="container" IsEnabled="{Binding IsFrameEnabled}">
+                <Frame class="container">
                     <VerticalStackLayout>
                         <Label Text="Połącz Arduino" class="header"/>
                         <Button Text="Połącz" Command="{Binding ConnectArduinoCommand}"/>
@@ -56,7 +56,7 @@
                                         <CheckBox IsChecked="{Binding IsPresent}"/>
                                         <Label Text="{Binding Id}" class="big"/>
                                         <Label Text="{Binding Name}" class="big"/>
-                                        <Label Text="{Binding SelectedCounter, StringFormat='Licznik: {0}'}" class="small"/>
+                                        <Label Text="{Binding SelectedCounter, StringFormat='Cooldown: {0}'}" class="small"/>
                                     </HorizontalStackLayout>
                                 </Frame>
                             </DataTemplate>

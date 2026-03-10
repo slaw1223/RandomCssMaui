@@ -32,8 +32,15 @@ public partial class EditClassViewModel : ObservableObject
     [RelayCommand]
     async Task AddStudent()
     {
-        if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudent.NewStudentName))
+        if (SelectedClass == null) {
+            await App.Current.MainPage.DisplayAlert("Error", "Wybierz klasę", "OK");
             return;
+        }
+        if (string.IsNullOrWhiteSpace(NewStudent.NewStudentName))
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Imię ucznia nie może być puste", "OK");
+            return;
+        }
 
         ClassRepository.AddStudentToClass(SelectedClass, NewStudent.NewStudentName.Trim());
         NewStudent.NewStudentName = string.Empty;
@@ -45,7 +52,11 @@ public partial class EditClassViewModel : ObservableObject
     {
         var s = student ?? SelectedStudent;
         if (SelectedClass == null || s == null)
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Wybierz klasę", "OK");
             return;
+        }
+            
 
         SelectedClass.Students.Remove(s);
         if (SelectedStudent == s)
@@ -69,7 +80,10 @@ public partial class EditClassViewModel : ObservableObject
     async Task SaveEditStudent()
     {
         if (SelectedStudent == null || SelectedClass == null || string.IsNullOrWhiteSpace(SelectedStudent.EditStudentName))
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Imię ucznia nie może być puste", "OK");
             return;
+        }
         SelectedStudent.Name = SelectedStudent.EditStudentName.Trim();
         SelectedStudent.EditStudentName = string.Empty;
         IsEditEnabled = false;

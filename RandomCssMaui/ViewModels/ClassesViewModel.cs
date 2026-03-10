@@ -34,8 +34,6 @@ public partial class ClassesViewModel : ObservableObject
     [ObservableProperty]
     string arduinoConnectionStatus = "Nie po³¹czono";
 
-    [ObservableProperty]
-    bool isFrameEnabled = true;
 
     [RelayCommand]
     void ConnectArduino()
@@ -46,7 +44,6 @@ public partial class ClassesViewModel : ObservableObject
             port.ReadTimeout = 500;
             port.Open();
             ArduinoConnectionStatus = "Po³¹czono";
-            IsFrameEnabled = false;
         }
         catch (Exception ex)
         {
@@ -60,7 +57,7 @@ public partial class ClassesViewModel : ObservableObject
     {
         if (SelectedClass == null)
         {
-            SelectedStudentName.DisplayName = "Wybierz klasê";
+            await App.Current.MainPage.DisplayAlert("Error", "Wybierz klasê", "OK");
             return;
         }
 

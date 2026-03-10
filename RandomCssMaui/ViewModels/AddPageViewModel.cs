@@ -24,14 +24,17 @@ public partial class AddPageViewModel : ObservableObject
     public AddPageViewModel()
     {
         _ = ClassRepository.LoadAsync();
-//metoda jest async ale nie czeekamy na wynik  'discard'
+//metoda jest async ale nie czeekamy na wynik 'discard'
     }
 
     [RelayCommand]
     async Task AddClass()
     {
         if (string.IsNullOrWhiteSpace(NewClass.NewClassName))
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Nazwa klasy nie mo¿e byæ pusta", "OK");
             return;
+        }
 
         if (!Classes.Any(c => c.Name.Equals(NewClass.NewClassName.Trim(), StringComparison.OrdinalIgnoreCase)))
         {
@@ -44,8 +47,16 @@ public partial class AddPageViewModel : ObservableObject
     [RelayCommand]
     async Task AddStudent()
     {
-        if (SelectedClass == null || string.IsNullOrWhiteSpace(NewStudent.NewStudentName))
+        if (SelectedClass == null)
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Wybierz klasê", "OK");
             return;
+        }
+        if (string.IsNullOrWhiteSpace(NewStudent.NewStudentName))
+        {
+            await App.Current.MainPage.DisplayAlert("Error", "Imiê ucznia nie mo¿e byæ puste", "OK");
+            return;
+        }
 
         ClassRepository.AddStudentToClass(SelectedClass, NewStudent.NewStudentName.Trim());
         NewStudent.NewStudentName = string.Empty;

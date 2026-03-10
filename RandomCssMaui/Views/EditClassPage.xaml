@@ -27,7 +27,12 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame IsEnabled="{Binding IsEditEnabled}" class="container">
+                <Frame IsEnabled="{Binding IsEditEnabled}" class="container" StyleId="">
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame" Binding="{Binding IsEditEnabled}" Value="False">
+                            <Setter Property="BackgroundColor" Value="DimGray" />
+                        </DataTrigger>
+                    </Frame.Triggers>
                     <VerticalStackLayout>
                         <Label Text="Edytuj zaznaczonego ucznia" class="header"/>
                         <Entry Text="{Binding SelectedStudent.EditStudentName, Mode=TwoWay}" />

@@ -11,7 +11,7 @@
 
     <TabBar>
         <ShellContent
-            Title="Dodaj ucznia"
+            Title="Dodaj klasy i uczniów"
             ContentTemplate="{DataTemplate views:AddPage}"
             />
         <ShellContent
